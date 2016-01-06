@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import org.usfirst.frc.team2144.robot.commands.ExampleCommand;
+import org.usfirst.frc.team2144.robot.commands.GatorDrive;
 import org.usfirst.frc.team2144.robot.subsystems.Drivetrain;
 
 /**
@@ -29,7 +29,7 @@ public class Robot extends IterativeRobot {
     public void robotInit() {
 		oi = new OI();
         // instantiate the command used for the autonomous period
-        autonomousCommand = new ExampleCommand();
+        autonomousCommand = null;
     }
 	
 	public void disabledPeriodic() {
@@ -41,9 +41,6 @@ public class Robot extends IterativeRobot {
         if (autonomousCommand != null) autonomousCommand.start();
     }
 
-    /**
-     * This function is called periodically during autonomous
-     */
     public void autonomousPeriodic() {
         Scheduler.getInstance().run();
     }
@@ -55,25 +52,15 @@ public class Robot extends IterativeRobot {
         // this line or comment it out.
         if (autonomousCommand != null) autonomousCommand.cancel();
     }
-
-    /**
-     * This function is called when the disabled button is hit.
-     * You can use it to reset subsystems before shutting down.
-     */
-    public void disabledInit(){
-
-    }
-
-    /**
-     * This function is called periodically during operator control
-     */
+    
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
     }
     
-    /**
-     * This function is called periodically during test mode
-     */
+    public void disabledInit(){
+
+    }
+
     public void testPeriodic() {
         LiveWindow.run();
     }

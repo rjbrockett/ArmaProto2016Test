@@ -3,6 +3,8 @@ package org.usfirst.frc.team2144.robot.subsystems;
 
 import edu.wpi.first.wpilibj.RobotDrive;
 import org.usfirst.frc.team2144.robot.RobotMap;
+import org.usfirst.frc.team2144.robot.commands.GatorDrive;
+
 import edu.wpi.first.wpilibj.command.Subsystem;
 import com.ni.vision.NIVision;
 import com.ni.vision.NIVision.DrawMode;
@@ -42,6 +44,7 @@ public class Drivetrain extends Subsystem {
 
 	public RobotDrive robit;
 	public Talon fLeft, fRight, bLeft, bRight;
+	private double speedMultiplier, mecanumMultiplier;
 
 	public Drivetrain() {
 		fLeft = new Talon(RobotMap.fLeftPort);
@@ -49,8 +52,10 @@ public class Drivetrain extends Subsystem {
 		bLeft = new Talon(RobotMap.bLeftPort);
 		bRight = new Talon(RobotMap.bRightPort);
 		robit = new RobotDrive(fLeft, bLeft, fRight, bRight);
+		speedMultiplier = 1;
+		mecanumMultiplier = 1;
 	}
-	
+
 	public void gatorDrive(boolean isPrecise, boolean b4, boolean b5, double stickX, double stickY) {
 		if (isPrecise) {
 			speedMultiplier = 0.5;
@@ -64,29 +69,24 @@ public class Drivetrain extends Subsystem {
 			}
 		}
 
-		if (b4 && isPrecise) {// drive code
-			robit.mecanumDrive_Polar(0.3, 90, -1 * stickX);
+		if (b4 && isPrecise) {
+			robit.mecanumDrive_Polar(mecanumMultiplier, 90, -1 * stickX);
 		} else if (b5 && isPrecise) {
-			robit.mecanumDrive_Polar(0.3, 270, -1 * stickX);
-		} else if (b4) {// drive code
+			robit.mecanumDrive_Polar(mecanumMultiplier, 270, -1 * stickX);
+		} else if (b4) {
 			robit.mecanumDrive_Polar(mecanumMultiplier, 90, -1 * stickX);
 		} else if (b5) {
-			robit.mecanumDrive_Polar(mecanumMultiplier, 270,
-					-1 * stickX);
-		}
-
-		else {
+			robit.mecanumDrive_Polar(mecanumMultiplier, 270, -1 * stickX);
+		} else {
 			if (isPrecise) {
-				robit.arcadeDrive(stickX * -0.5, stickY * -0.5);
+				robit.arcadeDrive(stickX * -speedMultiplier, stickY * -speedMultiplier);
 			} else {
-				robit.arcadeDrive(stickX * -speedMultiplier,
-						stickY * -speedMultiplier);
+				robit.arcadeDrive(stickX * -speedMultiplier, stickY * -speedMultiplier);
 			}
 		}
 	}
 
 	public void initDefaultCommand() {
-		// Set the default command for a subsystem here.
-		// setDefaultCommand(new MySpecialCommand());
+		setDefaultCommand(new GatorDrive());
 	}
 }
