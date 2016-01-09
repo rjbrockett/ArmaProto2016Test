@@ -17,7 +17,7 @@ public class GatorDrive extends CommandBase {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		drivetrain.gatorDrive(oi.getPrecise(), oi.getb4(), oi.getb5(), oi.getStickX(), oi.getStickY());
+		drivetrain.gatorDrive(oi.getPrecise(), oi.getStickX(), oi.getStickY());
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
